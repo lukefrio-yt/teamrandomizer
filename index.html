@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeamRandomizer PRO</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fa-solid fa-bolt logo-icon"></i>
+        <h1>TeamRandomizer</h1>
+      </div>
+      <p class="subtitle">Chytré a spravedlivé rozlosování pro každou příležitost</p>
+    </header>
+
+    <main class="main-layout">
+      <section class="card">
+        <div class="card-header">
+          <label for="players-input"><i class="fa-solid fa-users"></i> Seznam hráčů</label>
+          <span id="player-count-badge" class="badge">0 hráčů</span>
+        </div>
+        
+        <textarea id="players-input" placeholder="Zadej jména (každé na nový řádek)...&#10;Petr&#10;Honza&#10;Karel&#10;Lukas&#10;Marek"></textarea>
+
+        <div id="error-box" class="error-box hidden">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span id="error-text">Chyba</span>
+        </div>
+
+        <div class="settings-grid">
+          <div class="setting-item">
+            <label for="mode-select"><i class="fa-solid fa-layer-group"></i> Režim rozlosování</label>
+            <select id="mode-select">
+              <option value="pairs">👥 Dvojice (2 hráči v týmu)</option>
+              <option value="trios">👥 Trojice (3 hráči v týmu)</option>
+              <option value="quads">👥 Čtveřice (4 hráči v týmu)</option>
+              <option value="teams">🔢 Určit přesný počet týmů</option>
+            </select>
+          </div>
+
+          <div class="setting-item hidden" id="custom-teams-box">
+            <label for="number-input"><i class="fa-solid fa-calculator"></i> Počet výsledných týmů</label>
+            <input type="number" id="number-input" min="2" max="20" value="2">
+          </div>
+        </div>
+
+        <div class="options-box">
+          <label class="checkbox-label">
+            <input type="checkbox" id="captains-check">
+            <span>Označit prvního hráče v týmu jako kapitána</span>
+          </label>
+        </div>
+
+        <div class="button-group">
+          <button id="generate-btn" class="btn btn-primary">
+            <i class="fa-solid fa-shuffle"></i> Rozlosovat týmy
+          </button>
+          <button id="clear-btn" class="btn btn-danger" title="Vymazat vše">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+      </section>
+
+      <section class="card history-card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-clock-rotate-left"></i> Historie rozlosování</h2>
+          <button id="clear-history-btn" class="btn btn-secondary btn-small" title="Vymazat historii">
+            <i class="fa-solid fa-trash"></i> Smazat
+          </button>
+        </div>
+        <div id="history-list" class="history-list">
+          <p class="history-empty">Zatím žádná uložená rozlosování.</p>
+        </div>
+      </section>
+
+      <section id="results-wrapper" class="results-wrapper hidden">
+        <div class="results-actions">
+          <h2><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> Aktuální výsledky</h2>
+          <button id="copy-btn" class="btn btn-secondary btn-small">
+            <i class="fa-solid fa-copy"></i> Zkopírovat
+          </button>
+        </div>
+        <div id="results-section" class="results-container"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast">
+    <i class="fa-solid fa-check"></i> <span id="toast-text">Zkopírováno do schránky!</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
