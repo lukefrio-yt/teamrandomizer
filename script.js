@@ -495,7 +495,7 @@ copyBtn.addEventListener('click', () => {
   if (!generatedData.teams || generatedData.teams.length === 0) return;
   playSound('copy');
 
-  let text = '⚡ TeamRandomizer — Rozlosované týmy:\n\n';
+  let text = 'TeamRandomizer — Rozlosované týmy:\n\n';
   generatedData.teams.forEach((team, idx) => {
     text += `*Tým ${idx + 1}:*\n`;
     team.forEach((p, pIdx) => {
