@@ -1,97 +1,199 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TeamRandomizer PRO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>TeamRandomizer — Chytré rozlosování týmů</title>
+  <meta name="description" content="Chytré a spravedlivé rozlosování hráčů do týmů v moderním Apple stylu s volbou kapitánů a historií.">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
   <div class="container">
-    <header>
-      <div class="logo">
-        <i class="fa-solid fa-bolt logo-icon"></i>
+    <header class="app-header">
+      <div class="header-actions">
+        <button type="button" id="sound-toggle-btn" class="icon-btn" title="Zapnout / ztlumit zvuk" aria-label="Přepnout zvuk">
+          <!-- Dynamically filled with sound SVG -->
+        </button>
+        <button type="button" id="theme-toggle-btn" class="icon-btn" title="Přepnout světlý / tmavý režim" aria-label="Přepnout motiv">
+          <!-- Dynamically filled with sun/moon SVG -->
+        </button>
+      </div>
+
+      <div class="logo-area">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
         <h1>TeamRandomizer</h1>
       </div>
       <p class="subtitle">Chytré a spravedlivé rozlosování pro každou příležitost</p>
     </header>
 
     <main class="main-layout">
-      <section class="card">
+      <!-- Karta pro zadání hráčů a nastavení -->
+      <section class="card setup-card">
         <div class="card-header">
-          <label for="players-input"><i class="fa-solid fa-users"></i> Seznam hráčů</label>
+          <div class="header-title">
+            <svg class="section-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <label for="players-input">Seznam hráčů</label>
+          </div>
           <span id="player-count-badge" class="badge">0 hráčů</span>
         </div>
-        
-        <textarea id="players-input" placeholder="Zadej jména (každé na nový řádek)...&#10;Petr&#10;Honza&#10;Karel&#10;Lukas&#10;Marek"></textarea>
 
-        <div id="error-box" class="error-box hidden">
-          <i class="fa-solid fa-triangle-exclamation"></i>
+        <div class="textarea-wrapper">
+          <textarea id="players-input" rows="5" spellcheck="false" placeholder="Zadej jména (každé na nový řádek)...&#10;Petr&#10;Honza&#10;Karel&#10;Lukáš&#10;Marek"></textarea>
+        </div>
+
+        <div id="error-box" class="error-box hidden" role="alert">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
           <span id="error-text">Chyba</span>
         </div>
 
         <div class="settings-grid">
           <div class="setting-item">
-            <label for="mode-select"><i class="fa-solid fa-layer-group"></i> Režim rozlosování</label>
-            <select id="mode-select">
-              <option value="pairs">👥 Dvojice (2 hráči v týmu)</option>
-              <option value="trios">👥 Trojice (3 hráči v týmu)</option>
-              <option value="quads">👥 Čtveřice (4 hráči v týmu)</option>
-              <option value="teams">🔢 Určit přesný počet týmů</option>
-            </select>
+            <label for="mode-select" class="setting-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              Režim rozdělení
+            </label>
+            <div class="select-wrapper">
+              <select id="mode-select">
+                <option value="pairs">👥 Dvojice (2 v týmu)</option>
+                <option value="trios">👥 Trojice (3 v týmu)</option>
+                <option value="quads">👥 Čtveřice (4 v týmu)</option>
+                <option value="teams">🔢 Přesný počet týmů</option>
+              </select>
+              <svg class="select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
           </div>
 
           <div class="setting-item hidden" id="custom-teams-box">
-            <label for="number-input"><i class="fa-solid fa-calculator"></i> Počet výsledných týmů</label>
-            <input type="number" id="number-input" min="2" max="20" value="2">
+            <label for="number-input" class="setting-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                <line x1="8" y1="6" x2="16" y2="6"></line>
+                <line x1="16" y1="14" x2="16" y2="18"></line>
+                <path d="M16 10h.01"></path>
+                <path d="M12 10h.01"></path>
+                <path d="M8 10h.01"></path>
+                <path d="M12 14h.01"></path>
+                <path d="M8 14h.01"></path>
+                <path d="M12 18h.01"></path>
+                <path d="M8 18h.01"></path>
+              </svg>
+              Počet výsledných týmů
+            </label>
+            <input type="number" id="number-input" min="2" max="50" value="2" inputmode="numeric">
           </div>
         </div>
 
-        <div class="options-box">
-          <label class="checkbox-label">
-            <input type="checkbox" id="captains-check">
-            <span>Označit prvního hráče v týmu jako kapitána</span>
+        <!-- iOS Switch pro kapitány -->
+        <div class="options-row">
+          <label class="switch-container" for="captains-check">
+            <div class="switch-info">
+              <span class="switch-title">Označit kapitány</span>
+              <span class="switch-subtitle">První hráč v každém týmu získá kapitánskou pásku</span>
+            </div>
+            <div class="switch-wrapper">
+              <input type="checkbox" id="captains-check">
+              <span class="switch-slider"></span>
+            </div>
           </label>
         </div>
 
         <div class="button-group">
-          <button id="generate-btn" class="btn btn-primary">
-            <i class="fa-solid fa-shuffle"></i> Rozlosovat týmy
+          <button type="button" id="generate-btn" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 3 21 3 21 8"></polyline>
+              <line x1="4" y1="20" x2="21" y2="3"></line>
+              <polyline points="21 16 21 21 16 21"></polyline>
+              <line x1="15" y1="15" x2="21" y2="21"></line>
+              <line x1="4" y1="4" x2="9" y2="9"></line>
+            </svg>
+            <span>Rozlosovat týmy</span>
           </button>
-          <button id="clear-btn" class="btn btn-danger" title="Vymazat vše">
-            <i class="fa-solid fa-trash-can"></i>
+          <button type="button" id="clear-btn" class="btn btn-danger-icon" title="Vymazat seznam" aria-label="Vymazat seznam hráčů">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
           </button>
         </div>
       </section>
 
+      <!-- Výsledky rozlosování -->
+      <section id="results-wrapper" class="results-wrapper hidden" aria-live="polite">
+        <div class="results-actions">
+          <div class="results-heading">
+            <span class="results-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                <path d="M4 22h16"></path>
+                <path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34c3.08-.63 5.4-3.15 5.92-6.32l.08-.34H4l.08.34c.52 3.17 2.84 5.69 5.92 6.32z"></path>
+              </svg>
+            </span>
+            <h2>Výsledky rozlosování</h2>
+          </div>
+          <button type="button" id="copy-btn" class="btn btn-secondary btn-small">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Zkopírovat</span>
+          </button>
+        </div>
+        <div id="results-section" class="results-container"></div>
+      </section>
+
+      <!-- Historie -->
       <section class="card history-card">
         <div class="card-header">
-          <h2><i class="fa-solid fa-clock-rotate-left"></i> Historie rozlosování</h2>
-          <button id="clear-history-btn" class="btn btn-secondary btn-small" title="Vymazat historii">
-            <i class="fa-solid fa-trash"></i> Smazat
+          <div class="header-title">
+            <svg class="section-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <h2>Historie rozlosování</h2>
+          </div>
+          <button type="button" id="clear-history-btn" class="btn-text-danger" title="Vymazat celou historii">
+            Vymazat
           </button>
         </div>
         <div id="history-list" class="history-list">
           <p class="history-empty">Zatím žádná uložená rozlosování.</p>
         </div>
       </section>
-
-      <section id="results-wrapper" class="results-wrapper hidden">
-        <div class="results-actions">
-          <h2><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> Aktuální výsledky</h2>
-          <button id="copy-btn" class="btn btn-secondary btn-small">
-            <i class="fa-solid fa-copy"></i> Zkopírovat
-          </button>
-        </div>
-        <div id="results-section" class="results-container"></div>
-      </section>
     </main>
+
+    <footer class="app-footer">
+      <p>TeamRandomizer PRO · <a href="https://github.com/lukefrio-yt/teamrandomizer" target="_blank" rel="noopener noreferrer">GitHub</a> · Lukáš Haderka</p>
+    </footer>
   </div>
 
-  <div id="toast" class="toast">
-    <i class="fa-solid fa-check"></i> <span id="toast-text">Zkopírováno do schránky!</span>
+  <!-- Toast Notifikace -->
+  <div id="toast" class="toast" role="status" aria-live="assertive">
+    <div class="toast-icon">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <span id="toast-text">Akce dokončena</span>
   </div>
 
   <script src="script.js"></script>
